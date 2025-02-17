@@ -13,7 +13,7 @@ from meant4_qa_eng_test.ap_pom import REGISTER_ACCOUNT_NAME
 from meant4_qa_eng_test.ap_pom import SUBMIT_CREATE_NAME
 
 
-@scenario('register.feature', 'Registering new account')
+@scenario("register.feature", "Registering new account")
 def test_register(browser):
     assert browser.is_text_present("Your account has been created.", wait_time=10)
 

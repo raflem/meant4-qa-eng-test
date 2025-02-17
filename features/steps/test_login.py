@@ -3,7 +3,7 @@ from pytest_bdd import scenario
 from pytest_bdd import then
 from pytest_bdd import when
 
-from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS, ALERT_SUCCESS_CSS
+from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS
 from meant4_qa_eng_test.ap_pom import CREATE_FNAME_NAME
 from meant4_qa_eng_test.ap_pom import CREATE_LNAME_NAME
 from meant4_qa_eng_test.ap_pom import EMAIL_CREATE_NAME
@@ -15,7 +15,7 @@ from meant4_qa_eng_test.ap_pom import SUBMIT_CREATE_NAME
 from meant4_qa_eng_test.ap_pom import SUBMIT_LOGIN_NAME
 
 
-@scenario('login.feature', 'Logging in')
+@scenario("login.feature", "Logging in")
 def test_login(browser):
     assert browser.is_text_present("Welcome to your account", wait_time=10)
 

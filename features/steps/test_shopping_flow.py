@@ -19,7 +19,7 @@ from meant4_qa_eng_test.ap_pom import REGISTER_ACCOUNT_NAME
 from meant4_qa_eng_test.ap_pom import SUBMIT_CREATE_NAME
 
 
-@scenario('shopping_flow.feature', 'Shopping flow')
+@scenario("shopping_flow.feature", "Shopping flow")
 def test_shopping_flow(browser):
     assert browser.find_by_text("Your order on My Shop is complete.")
 
@@ -78,7 +78,8 @@ def add_item_to_cart(browser):
     # browser.find_by_css(".product-container")[-1].click()  # BUG?: performs as hover not as click
     # browser.find_by_id("View").click()  # WARN: doesn't work despite elements being visible!
     browser.visit(
-        "http://www.automationpractice.pl/index.php?id_product=7&controller=product#/16-color-yellow/2-size-m")  # bruteforce to an available item
+        "http://www.automationpractice.pl/index.php?id_product=7&controller=product#/16-color-yellow/2-size-m"
+    )  # bruteforce to an available item
     browser.find_by_text("Add to cart").click()
 
 
@@ -108,7 +109,9 @@ def select_shipping(browser):
 @when("Accept the ToS")
 def accept_tos(browser):
     browser.find_by_id("cgv").click()
-    browser.find_by_css(".button.btn.btn-default.standard-checkout.button-medium").click()
+    browser.find_by_css(
+        ".button.btn.btn-default.standard-checkout.button-medium"
+    ).click()
 
 
 @when("Select a payment option")
