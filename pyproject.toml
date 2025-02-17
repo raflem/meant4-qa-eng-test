@@ -47,9 +47,11 @@ dependencies = [
     "urllib3==2.3.0",
     "websocket-client==1.8.0",
     "wsproto==1.2.0",
-
-
 ]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "--splinter-webdriver chrome"
 
 [tool.setuptools.packages.find]
 where = ["src"]
