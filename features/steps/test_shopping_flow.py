@@ -96,7 +96,6 @@ def enter_delivery_info(browser, user_info):
     browser.find_by_id("id_state").select(user_info["state"])
     browser.fill("postcode", user_info["zip"])
     browser.fill("phone", user_info["phone"])
-    # browser.find_by_id("phone_mobile").click()  # click elsewhere to save the phone no.
     browser.find_by_id("submitAddress").click()
 
 
