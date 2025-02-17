@@ -4,9 +4,9 @@ from pytest_bdd import scenario
 from pytest_bdd import then
 from pytest_bdd import when
 
-from meant4_qa_eng_test.ap_pom import ALERT_CSS
+from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS
 from meant4_qa_eng_test.ap_pom import EMAIL_LOGIN_NAME
-from meant4_qa_eng_test.ap_pom import LOGIN_PAGE
+from meant4_qa_eng_test.ap_pom import LOGIN_PAGE_HREF
 from meant4_qa_eng_test.ap_pom import PSWD_LOGIN_NAME
 from meant4_qa_eng_test.ap_pom import SUBMIT_LOGIN_NAME
 
@@ -23,7 +23,7 @@ def login_info():
 
 @given("Browser is open on the Sign In page")
 def open_browser_and_page(browser):
-    browser.visit(LOGIN_PAGE)
+    browser.visit(LOGIN_PAGE_HREF)
 
 
 @given("I have an account")
@@ -56,5 +56,5 @@ def login_check(browser):
 
 @then("I shouldn't see an error message")
 def check_no_error(browser):
-    error = browser.find_by_css(ALERT_CSS)
+    error = browser.find_by_css(ALERT_DANGER_CSS)
     assert not error
