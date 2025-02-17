@@ -1,16 +1,17 @@
 import pytest
-from pytest_bdd import scenario
 from pytest_bdd import given
-from pytest_bdd import when
+from pytest_bdd import scenario
 from pytest_bdd import then
+from pytest_bdd import when
 
+from meant4_qa_eng_test.ap_pom import ALERT_CSS
+from meant4_qa_eng_test.ap_pom import SUBMIT_LOGIN_NAME
 from meant4_qa_eng_test.ap_pom import LOGIN_PAGE
-from meant4_qa_eng_test.ap_pom import LOGIN_BUTTON
 
 
 @scenario('login.feature', 'Logging in')
-def test_publish():
-    pass
+def test_publish(browser):
+    assert browser.is_text_present("Welcome to your account", wait_time=10)
 
 
 @pytest.fixture(scope="session")
@@ -25,8 +26,7 @@ def open_browser_and_page(browser):
 
 @given("I have an account")
 def check_account(login_info):
-    # having an account is a given for this test
-    login_info["email"] = "spoofed@account.com"
+    login_info["email"] = "spoofed@account.com"  # ideally this is pulled from env vars or project secrets
     login_info["pswd"] = "pswd1234"
     return login_info
 
@@ -43,15 +43,16 @@ def enter_password(browser, login_info):
 
 @when("I press the 'log in' button")
 def press_login(browser):
-    button = browser.find_by_xpath(LOGIN_BUTTON)
-    browser.click(button)
+    button = browser.find_by_name(SUBMIT_LOGIN_NAME)
+    button.click()
 
 
 @then("I should be logged in")
-def login_check():
-    pass
+def login_check(browser):
+    browser.is_text_present("Welcome to your account", wait_time=10)
 
 
 @then("I shouldn't see an error message")
-def check_no_error():
-    pass
+def check_no_error(browser):
+    error = browser.find_by_css(ALERT_CSS)
+    assert not error
