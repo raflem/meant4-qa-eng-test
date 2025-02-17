@@ -2,7 +2,7 @@ Feature: Login
   Functionality to log in into an account
 
   Scenario: Logging in
-    Given Browser is open on the login page
+    Given Browser is open on the Sign In page
     And I have an account
 
     When I enter account name

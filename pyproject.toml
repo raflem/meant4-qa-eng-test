@@ -50,6 +50,7 @@ dependencies = [
 ]
 
 [tool.pytest.ini_options]
+bdd_features_base_dir = "features"
 minversion = "8.0"
 addopts = "--splinter-webdriver chrome"
 
