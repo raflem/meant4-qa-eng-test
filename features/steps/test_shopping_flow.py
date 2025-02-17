@@ -1,13 +1,11 @@
-from random import randint
-
 import pytest
 from pytest_bdd import given
 from pytest_bdd import scenario
 from pytest_bdd import then
 from pytest_bdd import when
-from random_word import RandomWords
 
-from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS, ALERT_SUCCESS_CSS
+from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS
+from meant4_qa_eng_test.ap_pom import ALERT_SUCCESS_CSS
 from meant4_qa_eng_test.ap_pom import AVAILABLE_DIF_CSS
 from meant4_qa_eng_test.ap_pom import CREATE_FNAME_NAME
 from meant4_qa_eng_test.ap_pom import CREATE_LNAME_NAME
@@ -26,41 +24,24 @@ def test_shopping_flow(browser):
     assert browser.find_by_text("Your order on My Shop is complete.")
 
 
-@pytest.fixture(scope="session")
-def register_info() -> dict:
-    return {}  # ideally this session-scoped fixture is re-used in test_loginł
-
-
 @pytest.fixture(scope="function")
-def register_and_sign_in(browser, register_info):
+def register_and_sign_in(browser, user_info):
     """
     Factory fixture wrapping the registering process.
 
     :param browser: pytest-splinter's browser fixture
-    :param register_info: registration info fixture
+    :param user_info: registration info fixture
     :return: registration and sign in function
     """
 
     def _register_and_sign_in():
-        r = RandomWords()
-        name = r.get_random_word().capitalize()
-        domain = r.get_random_word().capitalize()
-        register_info["name"] = name
-        register_info["surname"] = domain
-        register_info["email"] = f"{name}@{domain}.com"
-        register_info["pswd"] = f"{r.get_random_word()}{randint(1000, 9999)}"
-        register_info["address"] = f"{r.get_random_word().capitalize()} Street"
-        register_info["city"] = f"{r.get_random_word().capitalize()} Town"
-        register_info["state"] = f"{randint(1, 50)}"
-        register_info["zip"] = "".join(f"{randint(1, 9)}" for _ in range(5))
-        register_info["phone"] = "".join(f"{randint(1, 9)}" for _ in range(9))
         browser.visit(LOGIN_PAGE_HREF)
-        browser.fill(EMAIL_CREATE_NAME, register_info["email"])
+        browser.fill(EMAIL_CREATE_NAME, user_info["email"])
         submit_create_btn = browser.find_by_name(SUBMIT_CREATE_NAME)
         submit_create_btn.click()
-        browser.fill(CREATE_FNAME_NAME, register_info["name"])
-        browser.fill(CREATE_LNAME_NAME, register_info["surname"])
-        browser.fill(PSWD_LOGIN_NAME, register_info["pswd"])
+        browser.fill(CREATE_FNAME_NAME, user_info["name"])
+        browser.fill(CREATE_LNAME_NAME, user_info["surname"])
+        browser.fill(PSWD_LOGIN_NAME, user_info["pswd"])
         register_btn = browser.find_by_name(REGISTER_ACCOUNT_NAME)
         register_btn.click()
         browser.find_by_css(".alert.alert-success")
@@ -108,12 +89,12 @@ def go_to_checkout(browser):
 
 
 @when("Provide a delivery address")
-def enter_delivery_info(browser, register_info):
-    browser.fill("address1", register_info["address"])
-    browser.fill("city", register_info["city"])
-    browser.find_by_id("id_state").select(register_info["state"])
-    browser.fill("postcode", register_info["zip"])
-    browser.fill("phone", register_info["phone"])
+def enter_delivery_info(browser, user_info):
+    browser.fill("address1", user_info["address"])
+    browser.fill("city", user_info["city"])
+    browser.find_by_id("id_state").select(user_info["state"])
+    browser.fill("postcode", user_info["zip"])
+    browser.fill("phone", user_info["phone"])
     # browser.find_by_id("phone_mobile").click()  # click elsewhere to save the phone no.
     browser.find_by_id("submitAddress").click()
 

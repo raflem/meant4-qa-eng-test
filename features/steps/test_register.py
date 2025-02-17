@@ -1,11 +1,7 @@
-from random import randint
-
-import pytest
 from pytest_bdd import given
 from pytest_bdd import scenario
 from pytest_bdd import then
 from pytest_bdd import when
-from random_word import RandomWords
 
 from meant4_qa_eng_test.ap_pom import ALERT_DANGER_CSS
 from meant4_qa_eng_test.ap_pom import CREATE_FNAME_NAME
@@ -22,31 +18,19 @@ def test_register(browser):
     assert browser.is_text_present("Your account has been created.", wait_time=10)
 
 
-@pytest.fixture(scope="session")
-def register_info() -> dict:
-    return {}  # ideally this session-scoped fixture is re-used in test_login
-
-
 @given("Browser is open on the Sign In page")
 def open_browser_and_page(browser):
     browser.visit(LOGIN_PAGE_HREF)
 
 
 @given("I don't have an account registered")
-def create_register_info(register_info):
-    r = RandomWords()
-    name = r.get_random_word()
-    domain = r.get_random_word()
-    register_info["name"] = name
-    register_info["surname"] = domain
-    register_info["email"] = f"{name}@{domain}.com"
-    register_info["pswd"] = f"{r.get_random_word()}{randint(1000, 9999)}"
-    return register_info
+def check_registered():
+    pass
 
 
 @when("I enter an unregistered email address")
-def enter_account_name(browser, register_info):
-    browser.fill(EMAIL_CREATE_NAME, register_info["email"])
+def enter_account_name(browser, user_info):
+    browser.fill(EMAIL_CREATE_NAME, user_info["email"])
 
 
 @when("Click the Create Account button")
@@ -56,10 +40,10 @@ def click_create(browser):
 
 
 @when("Provide required information")
-def provide_info(browser, register_info):
-    browser.fill(CREATE_FNAME_NAME, register_info["name"])
-    browser.fill(CREATE_LNAME_NAME, register_info["surname"])
-    browser.fill(PSWD_LOGIN_NAME, register_info["pswd"])
+def provide_info(browser, user_info):
+    browser.fill(CREATE_FNAME_NAME, user_info["name"])
+    browser.fill(CREATE_LNAME_NAME, user_info["surname"])
+    browser.fill(PSWD_LOGIN_NAME, user_info["pswd"])
 
 
 @when("Confirm form submission")
