@@ -2,9 +2,24 @@ from random import randint
 
 import pytest
 from random_word import RandomWords
+from splinter import Browser
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
+def function_browser(splinter_webdriver):
+    """
+    Function-scoped browser fixture to ensure fresh env per test.
+
+    :param splinter_webdriver: webdriver to use, configured in pyproject toml or in command line
+    :yields: splinter.Browser instance configured with `splinter_webdriver` setting
+    """
+    browser = Browser(splinter_webdriver)
+    yield browser
+    browser.quit()
+
+
+
+@pytest.fixture(scope="function")
 def user_info() -> dict:
     user_info = dict()
     r = RandomWords()
